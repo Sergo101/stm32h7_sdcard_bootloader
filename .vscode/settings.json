@@ -1,0 +1,31 @@
+{
+    "files.associations": {
+        "app_touchgfx.h": "c",
+        "ad779x.h": "c",
+        "q_app.h": "c",
+        "stdint.h": "c",
+        "stm32h7xx_hal.h": "c",
+        "settings_map.h": "c",
+        "type_traits": "cpp",
+        "sai.h": "c",
+        "ff.h": "c",
+        "ffconf.h": "c",
+        "diskio.h": "c",
+        "sd_diskio.h": "c",
+        "ff_gen_drv.h": "c",
+        "bsp_driver_sd.h": "c",
+        "stm32h7xx_hal_conf.h": "c",
+        "main.h": "c",
+        "stdio.h": "c",
+        "string.h": "c",
+        "fatfs.h": "c",
+        "cstdio": "cpp",
+        "cstring": "cpp",
+        "files.h": "c",
+        "gpio.h": "c",
+        "winapifamily.h": "c",
+        "stm32h7xx_hal_sd.h": "c",
+        "bootloader.h": "c"
+    },
+    "cortex-debug.variableUseNaturalFormat": false
+}
