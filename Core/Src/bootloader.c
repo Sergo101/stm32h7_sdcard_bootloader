@@ -4,6 +4,8 @@
 #include "fatfs.h"
 #include "BspQspiBoot.h"
 
+#define APP_KEY 0x741B8CD7
+
 #define MAX_FLASH_SIZE 16 * 1024 * 1024
 uint8_t image_buff[256];
 
@@ -21,8 +23,15 @@ uint8_t check_for_image (void)
 {
   if(f_open(&image_file, pr_name, FA_READ) == FR_OK)
   {
+    uint32_t image_key = 0;
+    UINT br;
+    f_lseek(&image_file, 0x400);
+    f_read(&image_file,(void*)&image_key, 4, &br);
     f_close(&image_file);
-    return 0;
+    if(image_key == APP_KEY)
+    {
+      return 0;
+    }
   }
   return 1;
 }
