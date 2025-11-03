@@ -15,3 +15,28 @@ Root project folder contains IMAGE.BIN file. It is a blink program, that operate
 You can copy IMAGE.BIN file to sdcard, insert card in devboard and start debug. After sucssessfull copying image file to qspi flash, bootloader rename file to IMAGE_LD.BIN.
 # Short Summary
 Sdcard operation and file copying you can find in bootloader.c
+Bootloader checks application key before loading to prevent copying incorrect bin file
+You need to add appkey to you application
+typedef struct
+{
+  uint32_t appKey;
+  uint32_t hwKey;
+  uint32_t appVersion;
+  uint32_t date;
+}AppInfo_t;
+__attribute__((section(".AppInfo"))) const AppInfo_t AppInfo =
+{
+  .appKey = 0x741B8CD7,
+  .hwKey  = 0x1,
+  .appVersion  = 0x0,
+  .date = 3112025,
+  /* data */
+};
+And add special section in linker script
+
+  .AppInfo 0x90000400 : 
+  {
+    . = ALIGN(4);
+    KEEP(*(.AppInfo))
+    . = ALIGN(4);
+  } >FLASH
