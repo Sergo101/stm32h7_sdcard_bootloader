@@ -27,5 +27,5 @@
         "stm32h7xx_hal_sd.h": "c",
         "bootloader.h": "c"
     },
-    "cortex-debug.variableUseNaturalFormat": false
+    "cortex-debug.variableUseNaturalFormat": true
 }

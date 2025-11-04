@@ -4,7 +4,25 @@
 #include "fatfs.h"
 #include "BspQspiBoot.h"
 
+#include <string.h>
+
 #define APP_KEY 0x741B8CD7
+#define APP_INFO_ADDR 0x400
+
+#pragma pack(1)
+typedef struct
+{
+  uint32_t appKey;
+  uint32_t hwKey;
+  uint32_t appVersion;
+  uint8_t date[12];
+  uint8_t time[9];
+  uint8_t res[3];
+}AppInfo_t;
+#pragma pack(0)
+
+AppInfo_t file_app_info = {0,};
+AppInfo_t image_info = {0,};
 
 #define MAX_FLASH_SIZE 16 * 1024 * 1024
 uint8_t image_buff[256];
@@ -21,19 +39,21 @@ uint8_t sd_bootloader_init (void)
 
 uint8_t check_for_image (void)
 {
+  uint8_t res = 1;
   if(f_open(&image_file, pr_name, FA_READ) == FR_OK)
   {
-    uint32_t image_key = 0;
     UINT br;
-    f_lseek(&image_file, 0x400);
-    f_read(&image_file,(void*)&image_key, 4, &br);
+    f_lseek(&image_file, APP_INFO_ADDR);
+    f_read(&image_file,(void*)&file_app_info, sizeof(AppInfo_t), &br);
     f_close(&image_file);
-    if(image_key == APP_KEY)
+    if(file_app_info.appKey == APP_KEY)
     {
-      return 0;
+      BspQspiBoot_ReadBuff((uint8_t*)&image_info, APP_INFO_ADDR,sizeof(AppInfo_t));
+      res = strncmp((char*)image_info.date,(char*)file_app_info.date,12) == 0;
+      res &= strncmp((char*)image_info.time,(char*)file_app_info.time,9) == 0;
     }
   }
-  return 1;
+  return res;
 }
 
 uint8_t load_image (void)
@@ -46,6 +66,8 @@ uint8_t load_image (void)
       uint32_t addr = 0;
       uint8_t eoi = 0;
       UINT bytes_read;
+
+      HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_SET);
 
       for(uint16_t i = 0; i < sec_to_erase; i++)
       {
@@ -69,7 +91,7 @@ uint8_t load_image (void)
         }
       }
       f_close(&image_file);
-      f_rename(pr_name, "IMAGE_LD.BIN");
+      HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_RESET);
       return 0;
     }
     f_close(&image_file);

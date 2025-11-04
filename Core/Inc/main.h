@@ -61,6 +61,9 @@ void Error_Handler(void);
 #define LED_Pin GPIO_PIN_13
 #define LED_GPIO_Port GPIOC
 
+#define LCD_BL_Pin GPIO_PIN_6
+#define LCD_BL_GPIO_Port GPIOH
+
 
 #define QSPI_CLK_ENABLE()               __HAL_RCC_QSPI_CLK_ENABLE()
 #define QSPI_CLK_DISABLE()              __HAL_RCC_QSPI_CLK_DISABLE()
