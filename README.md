@@ -1,5 +1,7 @@
 # stm32h7_sdcard_bootloader
-Bootloader load from sdcard to qspi and start app from qspi flash
+Bootloader load from sdcard to qspi and start app from qspi flash  
+For testing qspi operation use blink project  
+https://github.com/Sergo101/stm32h7_qspi_blink
 # Hardware
 This project operate at STM32H750IBK6 dev board from aliexpress
 https://aliexpress.ru/item/1005002536639925.html?sku_id=12000038943849991
