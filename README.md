@@ -17,8 +17,8 @@ You can copy IMAGE.BIN file to sdcard, insert card in devboard and start debug. 
 Sdcard operation and file copying you can find in bootloader.c  
 Bootloader checks application key before loading to prevent copying incorrect bin file  
 You need to add appinfo to you application at 0x90000400 address in qspi flash. It locates between .isr_vector & .text areas
-AppKey in this bootloader is 0x741B8CD7
-/* Bootloader info */
+AppKey in this bootloader is 0x741B8CD7  
+/* Bootloader info */  
 #pragma pack(1)  
 typedef struct  
 {  
