@@ -48,9 +48,10 @@ uint8_t check_for_image (void)
     f_close(&image_file);
     if(file_app_info.appKey == APP_KEY)
     {
-      BspQspiBoot_ReadBuff((uint8_t*)&image_info, APP_INFO_ADDR,sizeof(AppInfo_t));
-      res = strncmp((char*)image_info.date,(char*)file_app_info.date,12) == 0;
-      res &= strncmp((char*)image_info.time,(char*)file_app_info.time,9) == 0;
+      // BspQspiBoot_ReadBuff((uint8_t*)&image_info, APP_INFO_ADDR,sizeof(AppInfo_t));
+      // res = strncmp((char*)image_info.date,(char*)file_app_info.date,12) == 0;
+      // res &= strncmp((char*)image_info.time,(char*)file_app_info.time,9) == 0;
+      res = 0;
     }
   }
   return res;
@@ -91,6 +92,7 @@ uint8_t load_image (void)
         }
       }
       f_close(&image_file);
+      f_unlink(pr_name);
       HAL_GPIO_WritePin(LCD_BL_GPIO_Port, LCD_BL_Pin, GPIO_PIN_RESET);
       return 0;
     }
