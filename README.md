@@ -1,5 +1,7 @@
 # stm32h7_sdcard_bootloader
-Bootloader load from sdcard to qspi and start app from qspi flash
+Bootloader load from sdcard to qspi and start app from qspi flash  
+For testing qspi operation use blink project  
+https://github.com/Sergo101/stm32h7_qspi_blink
 # Hardware
 This project operate at STM32H750IBK6 dev board from aliexpress
 https://aliexpress.ru/item/1005002536639925.html?sku_id=12000038943849991
@@ -17,8 +19,8 @@ You can copy IMAGE.BIN file to sdcard, insert card in devboard and start debug. 
 Sdcard operation and file copying you can find in bootloader.c  
 Bootloader checks application key before loading to prevent copying incorrect bin file  
 You need to add appinfo to you application at 0x90000400 address in qspi flash. It locates between .isr_vector & .text areas
-AppKey in this bootloader is 0x741B8CD7
-/* Bootloader info */
+AppKey in this bootloader is 0x741B8CD7  
+/* Bootloader info */  
 #pragma pack(1)  
 typedef struct  
 {  
